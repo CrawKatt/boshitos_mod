@@ -18,12 +18,12 @@ import thedarkcolour.kotlinforforge.forge.runForDist
  *
  * An example for blocks is in the `blocks` package of this mod.
  */
-@Mod(ExampleMod.ID)
+@Mod(ExampleMod.MOD_ID)
 object ExampleMod {
-    const val ID = "examplemod"
+    const val MOD_ID = "examplemod"
 
     // the logger for our mod
-    val LOGGER: Logger = LogManager.getLogger(ID)
+    private val LOGGER: Logger = LogManager.getLogger(MOD_ID)
 
     init {
         LOGGER.log(Level.INFO, "Hello world!")

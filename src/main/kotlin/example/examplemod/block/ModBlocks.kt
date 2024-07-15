@@ -8,7 +8,7 @@ import net.minecraftforge.registries.ForgeRegistries
 import thedarkcolour.kotlinforforge.forge.registerObject
 
 object ModBlocks {
-    val REGISTRY = DeferredRegister.create(ForgeRegistries.BLOCKS, ExampleMod.ID)
+    val REGISTRY = DeferredRegister.create(ForgeRegistries.BLOCKS, ExampleMod.MOD_ID)
 
     // the returned ObjectHolderDelegate can be used as a property delegate
     // this is automatically registered by the deferred registry at the correct times
