@@ -1,7 +1,13 @@
-package example.examplemod
+package crawkatt.boshitosmod
 
-import example.examplemod.block.ModBlocks
+import crawkatt.boshitosmod.block.ModBlocks
+import crawkatt.boshitosmod.entity.ModEntities
+import crawkatt.boshitosmod.entity.client.BoshitoRenderer
+import crawkatt.boshitosmod.item.ModItems
 import net.minecraft.client.Minecraft
+import net.minecraft.client.renderer.entity.EntityRenderers
+import net.minecraft.world.item.CreativeModeTabs
+import net.minecraftforge.event.BuildCreativeModeTabContentsEvent
 import net.minecraftforge.fml.common.Mod
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent
 import net.minecraftforge.fml.event.lifecycle.FMLDedicatedServerSetupEvent
@@ -18,22 +24,31 @@ import thedarkcolour.kotlinforforge.forge.runForDist
  *
  * An example for blocks is in the `blocks` package of this mod.
  */
-@Mod(ExampleMod.MOD_ID)
-object ExampleMod {
-    const val MOD_ID = "examplemod"
+@Mod(BoshitosMod.MOD_ID)
+object BoshitosMod {
+    const val MOD_ID = "boshitosmod"
 
     // the logger for our mod
     private val LOGGER: Logger = LogManager.getLogger(MOD_ID)
 
+    // Este es el constructor de la clase. Es el equivalente a `BoshitosMod()`
     init {
         LOGGER.log(Level.INFO, "Hello world!")
 
-        // Register the KDeferredRegister to the mod-specific event bus
-        ModBlocks.REGISTRY.register(MOD_BUS)
+        // MOD_BUS es el equivalente a IEventBus
+        // Registra los bloques
+        ModBlocks.BLOCKS.register(MOD_BUS)
+
+        // Registra los objetos
+        ModItems.ITEMS.register(MOD_BUS)
+
+        // Registra las entidades
+        ModEntities.ENTITY_TYPES.register(MOD_BUS)
 
         val obj = runForDist(
             clientTarget = {
                 MOD_BUS.addListener(::onClientSetup)
+                MOD_BUS.addListener(::addCreative)
                 Minecraft.getInstance()
             },
             serverTarget = {
@@ -51,6 +66,13 @@ object ExampleMod {
      */
     private fun onClientSetup(event: FMLClientSetupEvent) {
         LOGGER.log(Level.INFO, "Initializing client...")
+        EntityRenderers.register(ModEntities.BOSHITO.get(), ::BoshitoRenderer)
+    }
+
+    private fun addCreative(event: BuildCreativeModeTabContentsEvent) {
+        if (event.tabKey == CreativeModeTabs.INGREDIENTS) {
+            event.accept(ModItems.RAW_BROTENITA)
+        }
     }
 
     /**
